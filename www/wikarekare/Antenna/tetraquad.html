@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>tetraQuad</title>
+<SCRIPT language=JavaScript>
+
+<!--
+function clearResults(form)
+{
+	form.lamda0.value = "";
+	form.lamda0_25.value= "";
+	form.lamda0_125.value= "";
+	form.plateHeight.value="";
+	form.plateWidth.value="";
+	form.plateOHeight.value="";
+	form.plateOWidth.value="";
+}
+
+function DoIt(form)
+{
+	
+	var l0 = (299.702547/form.frequency.value);
+	form.lamda0.value = Math.round(l0*10)/10;
+	form.lamda0_25.value=Math.round(l0/4*10)/10;	
+	form.lamda0_125.value=Math.round(l0/8*10)/10;	
+	form.plateHeight.value=Math.round((l0/2+Math.sqrt(0.125*l0*l0))*10)/10;	
+	form.plateWidth.value=Math.round((l0/2+4*Math.sqrt(0.125*l0*l0))*10)/10;	
+	form.plateOHeight.value=Math.round(120/123*l0*10)/10;	
+	form.plateOWidth.value=Math.round(220/123*l0*10)/10;	
+}
+
+function setFrequency(form, theSelect)
+{
+	form.frequency.value = theSelect.options[theSelect.selectedIndex].value;
+	DoIt(document.theForm);
+}
+// --->
+</SCRIPT>
+</head>
+<body onload="DoIt(document.theForm)">
+<h1>Building the tetraQuad</h1>
+
+I don't know the real name for this antenna, but it is four Quads
+stacked end on end and feed in alternating phases. It also seems to be an extremely forgiving design. I
+made quite a mess of the construction and I'm getting somewhere close to 14dBi gain. It is very close
+in performance to the lucent 14dBi antenna I have (theoretical max 19Dbi). I did think I was getting none, but discovered that the antenna is horizontally polarized when held vertically. It seems to have quite a wide horizontal pattern, but a limited vertical one. This is wider than the theory suggests and is no doubt where the extra gain went.
+<P>
+I also built a six diamond version, but it performed no better (or worse).
+<p>
+<form name="theForm">
+<table>
+<tr><td>Frequency</td><td><input type="text" value="2.442" name="frequency"><br>
+<select name="selectFrequency" SIZE=1 onChange="setFrequency(this.form, this.form.selectFrequency)">
+<option value="2.412">b/g Chnl 1</option>
+<option value="2.417">b/g Chnl 2</option>
+<option value="2.422">b/g Chnl 3</option>
+<option value="2.427">b/g Chnl 4</option>
+<option value="2.432">b/g Chnl 5</option>
+<option value="2.437">b/g Chnl 6</option>
+<option SELECTED value="2.442">b/g Chnl 7</option>
+<option value="2.447">b/g Chnl 8</option>
+<option value="2.452">b/g Chnl 9</option>
+<option value="2.457">b/g Chnl 10</option>
+<option value="2.462">b/g Chnl 11</option>
+<option value="2.467">b/g Chnl 12</option>
+<option value="2.472">b/g Chnl 13</option>
+<option value="2.484">b/g Chnl 14</option>
+<option value="5.170">a Chnl 34</option>
+<option value="5.180">a Chnl 36</option>
+<option value="5.190">a Chnl 38</option>
+<option value="5.200">a Chnl 40</option>
+<option value="5.220">a Chnl 42</option>
+<option value="5.220">a Chnl 44</option>
+<option value="5.230">a Chnl 46</option>
+<option value="5.240">a Chnl 48</option>
+<option value="5.260">a Chnl 52</option>
+<option value="5.280">a Chnl 56</option>
+<option value="5.300">a Chnl 60</option>
+<option value="5.320">a Chnl 64</option>
+<option value="5.745">a Chnl 149</option>
+<option value="5.765">a Chnl 153</option>
+<option value="5.785">a Chnl 157</option>
+<option value="5.805">a Chnl 161</option>
+</select>
+</td><td valign="top">GHz</td>
+	<td rowspan=18>
+		<table>
+		<tr>
+			<td><img src="tetraquadDiag.gif"></td>
+		</tr>
+		</table>
+</tr>
+<tr><td>&nbsp;</td><td><input type="text" value="" name="message"></td><td><INPUT onclick="DoIt(this.form)" type="button" value="Compute"></td></tr>
+<tr><td>Free Space<br>Wavelength</td><td><input type="text" value="" name="lamda0"></td><td>mm</td></tr>
+<tr><td>Side Length</td><td><input type="text" value="" name="lamda0_25"></td><td>mm</td></tr>
+<tr><td>Offset from reflector</td><td><input type="text" value="" name="lamda0_125"></td><td>mm</td></tr>
+<tr><td>Reflector height</td><td><input type="text" value="" name="plateHeight"></td><td>mm (Minimum)</td></tr>
+<tr><td>Reflector Width</td><td><input type="text" value="" name="plateWidth"></td><td>mm (Minimum)</td></tr>
+<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td colspan="3">The size of the reflector and its distance from the active element affect the feed impedance. The ARRL handbook says there should be a 1/4 wavelength edge beyond the active element.</td></tr>
+</table>
+</form>
+<p>
+<h3>Misc Notes</h3>
+<UL>
+<li>I used 3.2mm (1/8") Mang-Bronze welding rods. These are really hard to bend and
+the diamonds are quite small so made several smaller sections and soldered them together.
+<li>I put a bit of tape around the cross over point where the outer diamonds meet the inner ones.
+<li>I used a small piece of 2mm copper wire to bridge the gap. 
+<li>The N-Socket is bolted to the back plate (cut from an old copper water tank) with nylon screws. 
+<li>The antenna is held off of the back plate (1/8 wavelength) by 2mm diameter copper wire (the original plan had coax).
+</UL>
+
+<table>
+<tr><td><img src="tetraquad.gif"></td></tr>
+<tr><td>From the front.</td></tr>
+<tr><td><img src="tetraquadBack.gif"></td></tr>
+<tr><td>From the Back</td></tr>
+<tr><td><img src="tetraquadSide.gif"></td></tr>
+<tr><td>Looking down on it when it is aligned for vertical polarization (i.e. the diamonds are horizontal)</td></tr>
+</table>
+</body>
+</html>

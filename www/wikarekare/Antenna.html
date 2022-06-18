@@ -1,0 +1,108 @@
+<html>
+<head>
+<title>WiKarekare Antenna</title>
+</head>
+<body>
+<h2>Antenna</h2>
+We were fortunate to have two Lucent 14DBi Yagi antennas to use as a reference for our own 
+home built ones. These also gave us a good indication that a signal could be carried over the
+trial distance and terrain. We concluded that as long as we had line of sight, with minimal foliage 
+in the path, that we could transmit between any two points in the Karekare area (easily up to ~4Km we needed).  
+We have built several different antennas designs and intend to trial others. The antennas of choice would be the slotted waveguides and the bicircles. 
+<h3>Slotted Waveguide</h3>
+<table>
+<tr>
+<td valign="top"><img src="Antenna/LKAntennaSmall.jpg" ></td>
+<td valign="top">
+<h3>8+8 Slotted waveguide</h3>
+We were looking for a high gain omnidirectional antenna for our access points.
+Searching the net for antenna designs we came across Trevor Marshall's 
+<a target="_top" href="http://www.trevormarshall.com/waveguides.htm">waveguides</a> web site. This has a 
+good description of the slotted waveguide design he built and several references to other designs including
+Paul Wade's (W1GHZ) online <a target="_top" href="http://www.w1ghz.org/antbook/contents.htm">"Microwave Antenna Book"</a>.  
+Using Paul's Excel spreadsheet and looking at Trevor's and others designs (such as Rob Clark's 
+<a target="_top" href="http://freenet-antennas.com/v-web/portal/73/modules.php?name=News&file=categories&op=newindex&catid=1">downpipe</a>), we built a test 
+8+8 slotted waveguide (eight slots each side) from a length of 100x50 (x3mm thick) aluminium
+rectangular hollow box section. This proved to have a good 360 degree signal, Testing against the Lucent yagi, 
+the slotted antenna had an excellent signal at our 3Km test point. We did find a blind spot at 45 degrees to the 
+antenna and about 20 degrees below it (understandable, the gain is achieve through restricting the vertical signal coverage).
+ Rotating the antenna brought the signal up to a usable level. We will 
+look at adding "wings" to the antenna to see if this evens out the coverage.
+<p>
+<a href="Antenna/8+8Waveguide.html">Details of what we built</a><br>
+</td>
+</tr>
+</table>
+<p>
+<table>
+<tr>
+<td valign="top"><img src="Antenna/8WaveGuide.gif" WIDTH="100"></td>
+<td valign="top">
+<h3>8 Single sided Slotted waveguide</h3>
+We were also looking for a high gain 180 degree antenna for our central site.
+Having lots of spare 100x50 aluminuim, we built a test 
+single sided 8 slot waveguide 
+This proved to have a good 180 degree signal, Testing against the Lucent yagi, 
+the slotted antenna still had an excellent signal at 3.5Km. 
+<p>
+<a href="Antenna/8Waveguide.html">Details of what we built</a><br>
+</td>
+</tr>
+</table>
+<h3>Bicircle</h3>
+<p>
+These have a really good gain, and are simple to make. We now use these at nearly all the client ends, mounting them inside the router box (see <a target="_top" href="http://www.wikarekare.org/router/router-Pages/Image20.html">picture.</a>). We make the backing plate wider than is strickly necessary, so that it fits in the box better, and glue them in place. We are using them over 3km paths, with a single sided 8 slot waveguide at the far end. We have also used them at both ends, as point to point relays, over a 2.5km path, with 32mW tx power. 
+<p>
+<table>
+<tr><td> <img src="Antenna/bicircleSmall.jpg"></td><td><a href="Antenna/bicircle.html">What we built (14dBi)</a></td></tr>
+</table>
+
+<h3>Simple Waveguides</h3>
+<table>
+<tr>
+<td><img src="Antenna/WaveguideSide.gif" WIDTH="100"></td>
+<td  valign="top">
+Looking for a cheap and easy to construct client antenna, we came across, amongst others, tin can (circular waveguides) 
+and brick (rectangular waveguides) designs. We built a rectangular waveguide from an offcut of the 8+8 slotted 
+waveguide and tested it against the Lucent yagi and the 8+8 slotted waveguide. It proved to have a usable range somewhere 
+around 2km. With the 1/4wave dipole probe, it failed at our 3Km test point, but was working just before 2Km. With the cone probe, it was still working well at 3km.
+<p>
+<a href="Antenna/Waveguide.html">Details of Rectangular Waveguide built</a><br>
+<a href="Antenna/WaveguideCan.html">Details of Circular Waveguide built</a>
+</td>
+</tr>
+</table>
+<h3>Horn</h3>
+<p>
+I came across the <a target="_top" href="http://users.skynet.be/chricat/horn/horn-javascript.html">Horn</a> design and will trial 
+something like it. The horn is increasing the gain of the simple waveguide. 
+</p><h3>Yagi</h3>
+<table>
+<tr>
+<td><img src="Antenna/YagiOpenEnded.gif" WIDTH="100"></td>
+<td valign="top">
+The Lucent Yagi antenna is superior to the simple waveguide, so we went looking for simple to build yagi
+designs. We have yet to construct one, but came across <a target="_top" href="http://www.andrewhakman.dhs.org/yagi/">Andrew Hakman's</a> and <a target="_top" href="http://www.users.bigpond.com/darren.fulton/yagi/13_element_yagi_antenna_for_2.htm">Darren Fulton's</a>
+site, which has links to others. I don't think we will build any of these now. The bicircles have the same gain, are smaller and simpler to make.
+</td>
+</tr>
+</table>
+<h3>Discone</h3>
+<p>
+I'm not sure how much use this will be in our situation, but this is has reasonably good gain for its size.
+An example is on <a target="_top" href="http://www.timgineer.com/index.php/index.php?page=projects">Tim's</a> web page.
+</p>
+<h3>Helical</h3>
+<p>
+Helicals use circular polarization, left or right, rather than vertical or horizontal. They will 
+also happily work with a vertical or horizontal source (in reality the signal that arrives at the 
+receiver is probable somewhere between anyway). They can be really useful in situations where 
+there are reflected signals arriving at the antenna causing interference. A reflected circular
+ polarized signal reverses its polarization and is therefore much weaker compared to the direct
+ signal of the same polarization as the antenna.
+<a target="_top" href="http://www.wireless.org.au/~jhecker/helix/">An example of a homebuild helical</a> and another good site by <a target="_top" href="http://helix.remco.tk/">Dr. Remco den Besten, PA3FYM</a>
+<h3>USB Parabilic Cookware</h3>
+<a target="_top" href="http://www.usbwifi.orcon.net.nz/">These look great</a>. Everything from the wok antenna to the deep frying scoop.
+</p>
+</body>
+</html> 
