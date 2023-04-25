@@ -1,0 +1,8 @@
+[
+  { "src": "www/wikarekare/",
+    "dst": "www/wikarekare",
+    "mode": "0644",
+    "user": "root",
+    "group": "root"
+  }
+]
