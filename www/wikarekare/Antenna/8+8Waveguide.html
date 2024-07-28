@@ -80,7 +80,7 @@ function DoIt(form)
 	var gInt = (Math.cos(0.464*pi*l0/lg)-Math.cos(0.464*pi));
 	var g1 = 2.09*(lg/l0)*(Number(form.width.value)/Number(form.depth.value))*gInt*gInt;
 	var y = gslot/g1;
-	var offset = (Number(form.width.value)/pi)*Math.sqrt(Math.asin(y));
+	var offset = (Number(form.width.value)/pi)*Math.asin(Math.sqrt(y));
 	
 	if(((Number(form.width.value)*2)/l0)<1.27)
 	{
