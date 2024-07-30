@@ -19,9 +19,9 @@ function DoIt(form)
 {
 
 	var l0 = (299.702547/form.frequency.value);
-	val loop_l0 = l0 * form.loop_lamda0_percentage.value
+	var loop_l0 = l0 * form.loop_lamda0_percentage.value
 	form.lamda0.value = Math.round(l0*10)/10;
-	form.loop_lamda0.value = loop_l0
+	form.loop_lamda0.value = Math.round(loop_l0*100)/100;
 	form.lamda0_25.value=Math.round(loop_l0/4*10)/10;
 	form.lamda0_125.value=Math.round(loop_l0/8*10)/10;
 	form.plateHeight.value=Math.round((loop_l0/2+Math.sqrt(0.125*loop_l0*loop_l0))*10)/10;
@@ -104,7 +104,7 @@ Further research shows that a loop antenna's wavelength is slightly longer than 
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td><input type="text" value="" name="message"></td>
+	<td>&nbsp;</td>
 	<td><INPUT onclick="DoIt(this.form)" type="button" value="Compute"></td>
 </tr>
 <tr>
