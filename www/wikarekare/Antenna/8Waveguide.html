@@ -9,7 +9,7 @@ function clearResults(form)
 	form.lamda0.value = "";
 	form.lamda0_25.value= "";
 	form.lamdaG.value= "";
-	
+
 	form.cavityLength.value = "";
 	form.outerLength.value = "";
 	form.slotSpacing.value = "";
@@ -43,7 +43,7 @@ function ChartIt(form)
 		var slotPosition = Math.round(((i-1) * Number(form.slotSpacing.value) + firstSlotPosition)*10)/10;
 		var slotTop = Math.round((slotPosition - Number(form.slotLength.value) / 2)*10)/10;
 		var slotBottom = Math.round((slotPosition + Number(form.slotLength.value) / 2)*10)/10;
-		newDocument = newDocument + "<TR><TD>Slot " + i + " Center</td><td>" + slotPosition + "</td>" + "<td>" + slotTop + "</td>" +  "<td>" + slotBottom + "</td></tr>\n"; 
+		newDocument = newDocument + "<TR><TD>Slot " + i + " Center</td><td>" + slotPosition + "</td>" + "<td>" + slotTop + "</td>" +  "<td>" + slotBottom + "</td></tr>\n";
 	}
 
 	var probePosition = Math.round((Number(form.cavityLength.value) - Number(form.slotTop.value) +Number(form.thickness.value))*10)/10;
@@ -54,7 +54,7 @@ function ChartIt(form)
 			+ "<TR><TD>Inside Cavity</td><td>" + form.cavityLength.value + "</td><td>&nbsp;</td><td>&nbsp;</td></tr>\n"
 			+ "<TR><TD>Outside Length</td><td>" + form.outerLength.value + "</td><td>&nbsp;</td><td>&nbsp;</td></tr>\n"
 			;
-	
+
 	newDocument = newDocument + "</table>\n</body>\n</html>\n";
 
 	document.write(newDocument);
@@ -71,7 +71,7 @@ function DoIt(form)
 	}
 	else
 		form.message.value="";
-	
+
 	var pi = 3.141593;
 	var l0 = (299.702547/form.frequency.value);
 	var lg = (1/Math.sqrt(1/(l0*l0) - 1/(4*form.width.value*form.width.value)));
@@ -80,9 +80,9 @@ function DoIt(form)
 	var gInt = (Math.cos(0.464*pi*l0/lg)-Math.cos(0.464*pi));
 	var g1 = 2.09*(lg/l0)*(Number(form.width.value)/Number(form.depth.value))*gInt*gInt;
 	var y = gslot/g1;
-	var offset = (Number(form.width.value)/pi)*Math.sqrt(Math.asin(y));
-	
-	
+	var offset = (Number(form.width.value)/pi)*Math.asin(Math.sqrt(y));
+
+
 	if(((Number(form.width.value)*2)/l0)<1.27)
 	{
 		form.message.value="waveguide too small";
@@ -95,11 +95,11 @@ function DoIt(form)
 		clearResults(form);
 		return;
 	}
-	
+
 	form.lamda0.value = Math.round(l0*10)/10;
 	form.lamda0_25.value=Math.round(l0/4*10)/10;
 	form.lamdaG.value= Math.round(lg*10)/10;
-	
+
 	form.cavityLength.value = Math.round((Number(form.nSlots.value)/2+1)*lg*10)/10;
 	form.outerLength.value = Math.round(100 + Number(form.cavityLength.value) + 2 * Number(form.thickness.value)) ;
 	form.slotSpacing.value = Math.round(lg / 2*10)/10;
@@ -116,7 +116,7 @@ function DoIt(form)
 }
 
 function setFrequency(form, theSelect)
-{       
+{
 	form.frequency.value = theSelect.options[theSelect.selectedIndex].value;
 	if(form.frequency.value > 5 && form.width.value == 94)
 	{
@@ -124,14 +124,14 @@ function setFrequency(form, theSelect)
 		form.depth.value = 22;
 	}
 	else if(form.frequency.value < 5 && form.width.value == 44)
-	{       
+	{
 	        form.width.value = 94;
 	        form.depth.value = 44;
 											}
 											DoIt(document.theForm);
-										}       
+										}
 
-												  
+
 // --->
 </SCRIPT>
 </head>
@@ -143,13 +143,13 @@ We used 100mm x 50mm rectangular hollow box section aluminium with 3mm thick wal
 This gives us an internal size of 94mm x 44mm. We chose to build the antenna for
 2.442GHz, or channel 7, as this is close to the center of the 13 channels available
 to us (US designs use channel 6 (2.437Ghz), as they have 11 channels). The internal width (the wide side), determines the operating frequency. The internal height (the narrow side) determines the impedance. We used
-<a href="https://nuke.freenet-antennas.com.au/modules.php?name=News&file=article&sid=1">Rob Clark's</a> 
+<a href="https://nuke.freenet-antennas.com.au/modules.php?name=News&file=article&sid=1">Rob Clark's</a>
 5 wavelength design over <a href="https://www.trevormarshall.com/waveguides.htm">Trevor Marshall's</a>
-4.75 wavelength design simply because we could cut the 5 wavelength design down to get the 
+4.75 wavelength design simply because we could cut the 5 wavelength design down to get the
 4.75 wavelength one if our first try didn't work. Trevor's design also has wider slots and
-our slots could be made wider if we messed them up too much. We used 
-<a href="https://www.w1ghz.cx/antbook/preface.htm">Paul Wade's</a> 
-spreadsheet (<a href="https://www.w1ghz.cx/software/slotantenna.xls">Slotantenna.xls</a>)to calculate
+our slots could be made wider if we messed them up too much. We used
+<a href="https://www.w1ghz.cx/antbook/preface.htm">Paul Wade's</a>
+spreadsheet (<a href="https://www.w1ghz.org/software/slotantenna.xls">Slotantenna.xls</a>)to calculate
 the slot sizes and placement (The "Improved from Elliot" figures with a 2% reduction in slot
  length for square ends (see his text)). I have included a key lengths calculator in the form below.
 <p>
@@ -229,10 +229,10 @@ the slot sizes and placement (The "Improved from Elliot" figures with a 2% reduc
 	<p>
 	The final product only needs to be accurate to about 1mm as this will only shift the frequency
 	within the range of the 802.11 spectrum. A smaller slot length will shift the frequency response
-	of that slot to a higher channel. A longer slot length will shift it down. Changes in the slot 
+	of that slot to a higher channel. A longer slot length will shift it down. Changes in the slot
 	spacing affects the vertical signal pattern. A smaller spacing (higher channel) results in
 	the lower channels having a slightly downward vertical pattern. A larger spacing (A lower channel)
-will result in higher channels having a slightly upward tilted vertical pattern. 
+will result in higher channels having a slightly upward tilted vertical pattern.
 Slot width variation  affect the frequency response.
 The distance of each slot from the center
 varies with design. I don't know what this affects. One design deliberately changes this distance
@@ -240,13 +240,13 @@ for each slot so as to reduce the side lobes of the vertical radiation pattern.
 <p>
 <h3>Methods and madness</h3>
 I measured to .1mm using vernier callipers, on the assumption that errors in cutting might bring that
-closer to the 1mm error mark.  I did in fact manage to get most slots cut to a few tenths of a mm in length. 
+closer to the 1mm error mark.  I did in fact manage to get most slots cut to a few tenths of a mm in length.
 I used a drill press to make holes at either end of each slot and a hand held router with built on guide to cut
 between them. I then used a file to square the ends of each slot and to clean the edges up.
 <p>
 <h3>Misc Notes</h3>
 <UL>
-<li>100 is added to the bottom (alternately 50mm top & bottom) for mounting (included in form as the outside length). 
+<li>100 is added to the bottom (alternately 50mm top & bottom) for mounting (included in form as the outside length).
 <li>I used 3mm aluminium because the N-Socket is 3mm deep. The thickness also alters the
 slot calculation, but I have no idea how (I'm told the slots would be smaller in length, but
 I don't know what the exact realtionship is). People have successfully used much thinner material.
@@ -259,8 +259,8 @@ wavelength, including the protruding bit of the N-Socket).
 <li>The N-Socket is held down with nylon screws. I threaded the mounting holes. If you use metal screws,
 use stainless steal ones and keep them short so they don't protrude into the cavity.
 <li>Water in the antenna, or spider and insects will be a problem. One suggestion is to make the antenna
-upside down and make small holes in the top plate to let the water out. Another is to cover the holes 
-with thin microwave transparent tape, such as Kapton (source 3M and expensive) or Mylar (3M and others, but a common polyester tape with an acrylic adhesive. Sometimes called Yellow Thermoset tape). Some people have used other tapes. 
+upside down and make small holes in the top plate to let the water out. Another is to cover the holes
+with thin microwave transparent tape, such as Kapton (source 3M and expensive) or Mylar (3M and others, but a common polyester tape with an acrylic adhesive. Sometimes called Yellow Thermoset tape). Some people have used other tapes.
 They should be as thin as possible and not heat up in the microwave.
 </UL>
 
