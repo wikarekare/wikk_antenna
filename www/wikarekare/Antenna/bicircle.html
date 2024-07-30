@@ -15,13 +15,14 @@ function clearResults(form)
 
 function DoIt(form)
 {
-	
+
 	var l0 = (299.702547/form.frequency.value);
 	var pi = 3.141592654;
-	form.lamda0.value = Math.round(l0*10)/10;
-	form.lamda0_125.value=Math.round(l0/8*10)/10;	
-	form.plateHeight.value=Math.round((l0/pi+l0/2)*10)/10;	
-	form.plateWidth.value=Math.round((2*l0/pi+l0/2)*10)/10;	
+	val loop_l0 = l0 * form.loop_lamda0_percentage.value
+	form.lamda0.value = Math.round(loop_l0*10)/10;
+	form.lamda0_125.value=Math.round(loop_l0/8*10)/10;
+	form.plateHeight.value=Math.round((loop_l0/pi+l0/2)*10)/10;
+	form.plateWidth.value=Math.round((2*loop_l0/pi+loop_l0/2)*10)/10;
 }
 
 function setFrequency(form, theSelect)
@@ -35,9 +36,11 @@ function setFrequency(form, theSelect)
 <body onload="DoIt(document.theForm)">
 <h1>Building the bicircle</h1>
 
-This is simple to make and I'm getting 14Dbi, which is the theoretical gain (comparing it to a commercial 14dbi antenna over a 3km wide valley, it gives the same gain). 
+This is simple to make and I'm getting 14Dbi, which is the theoretical gain (comparing it to a commercial 14dbi antenna over a 3km wide valley, it gives the same gain).
 <p>
 I also tried different heights off of the reflector. I varied the distance from 1/8 to 1/4. It seemed to make no difference at all. It should alter the impedance. Different plate widths and heights made no obvious difference either. Nor does the shape of the circle. I had eliptical shapes and some very odd ones, but they all worked as well.
+<p>
+Further research shows that a loop antenna's wavelength is slightly longer than the free space wavelength. Other peoples tests indicate about 4% more, though this is dependent on the wire thickness and some experimentation is needed.
 <p>
 <form name="theForm">
 <table>
@@ -93,6 +96,11 @@ I also tried different heights off of the reflector. I varied the distance from 
 </tr>
 <tr><td>&nbsp;</td><td><input type="text" value="" name="message"></td><td><INPUT onclick="DoIt(this.form)" type="button" value="Compute"></td></tr>
 <tr><td>Free Space<br>Wavelength</td><td><input type="text" value="" name="lamda0"></td><td>mm</td></tr>
+<tr>
+	<td>Loop<br>Wavelength</td>
+	<td><input type="text" value="1.04" name="loop_lamda0_percentage"> <input type="text" value="" name="loop_lamda0"></td>
+	<td>mm</td>
+</tr>
 <tr><td>Offset from reflector</td><td><input type="text" value="" name="lamda0_125"></td><td>mm</td></tr>
 <tr><td>Reflector height</td><td><input type="text" value="" name="plateHeight"></td><td>mm (Minimum)</td></tr>
 <tr><td>Reflector Width</td><td><input type="text" value="" name="plateWidth"></td><td>mm (Minimum)</td></tr>
@@ -104,8 +112,8 @@ I also tried different heights off of the reflector. I varied the distance from 
 <h3>Misc Notes</h3>
 <UL>
 <li>I originally used 3.2mm (1/8") Mang-Bronze welding rods. These are really hard to bend and I have since built these antenna with bits of broken toy railway track, and also with 2mm copper wire (strands from a discarded offcut of 16mm power cable). All worked equally as well, so my suggestion would be to use the copper wire, as it is by far the easiest to work with.
-<li>The N-Socket is bolted to the back plate (cut from an old copper water tank) with nylon screws (I now use pop rivets). 
-<li>The antenna is held off of the back plate (1/8 wavelength) by 2mm diameter copper wire (the original plan had coax, but I see no difference in performance). From experimentation, the wires should about 1mm to 2mm apart. 
+<li>The N-Socket is bolted to the back plate (cut from an old copper water tank) with nylon screws (I now use pop rivets).
+<li>The antenna is held off of the back plate (1/8 wavelength) by 2mm diameter copper wire (the original plan had coax, but I see no difference in performance). From experimentation, the wires should about 1mm to 2mm apart.
 <li>You will notice the use of nylon mounting nuts, so as not to have metal bolts above the backing plate surface. We now just use 3mm rivets, and file the bulk of the top off, after it is in place. Again, it hasn't really affected the antenna performance. It might well be doing odd things to the impedence.
 </UL>
 

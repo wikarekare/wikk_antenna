@@ -17,16 +17,18 @@ function clearResults(form)
 
 function DoIt(form)
 {
-	
+
 	var l0 = (299.702547/form.frequency.value);
+	val loop_l0 = l0 * form.loop_lamda0_percentage.value
 	form.lamda0.value = Math.round(l0*10)/10;
-	form.lamda0_25.value=Math.round(l0/4*10)/10;	
-	form.lamda0_125.value=Math.round(l0/8*10)/10;	
-	form.plateHeight.value=Math.round((l0/2+Math.sqrt(0.125*l0*l0))*10)/10;	
-	form.plateWidth.value=Math.round((l0/2+2*Math.sqrt(0.125*l0*l0))*10)/10;	
+	form.loop_lamda0.value = loop_l0
+	form.lamda0_25.value=Math.round(loop_l0/4*10)/10;
+	form.lamda0_125.value=Math.round(loop_l0/8*10)/10;
+	form.plateHeight.value=Math.round((loop_l0/2+Math.sqrt(0.125*loop_l0*loop_l0))*10)/10;
+	form.plateWidth.value=Math.round((loop_l0/2+2*Math.sqrt(0.125*loop_l0*loop_l0))*10)/10;
 	var angle = 0.663555726;
-	form.long_diag.value=Math.round(2 * Math.cos(angle)*l0/4 * 10)/10;	
-	form.short_diag.value=Math.round(2 * Math.sin(angle)*l0/4 * 10)/10;	
+	form.long_diag.value=Math.round(2 * Math.cos(angle)*loop_l0/4 * 10)/10;
+	form.short_diag.value=Math.round(2 * Math.sin(angle)*loop_l0/4 * 10)/10;
 }
 
 function setFrequency(form, theSelect)
@@ -41,6 +43,8 @@ function setFrequency(form, theSelect)
 <h1>Building the biQuad</h1>
 
 We did not get as good a result as we expected from this, though it still isn't a bad antenna. Our build actually had an error in it. The squares should have been distorted into a rhombus, so that the long diagonal is about 1.3:1 that of the other. If the quads remain square, then the antenna has too high an impedance. Distorting the squares, drops this to 50 ohms.
+
+Further research shows that a loop antenna's wavelength is slightly longer than the free space wavelength. Other peoples tests indicate about 4% more, though this is dependent on the wire thickness and some experimentation is needed.
 <p>
 <form name="theForm">
 <table>
@@ -109,6 +113,11 @@ We did not get as good a result as we expected from this, though it still isn't 
 	<td>mm</td>
 </tr>
 <tr>
+	<td>Loop<br>Wavelength</td>
+	<td><input type="text" value="1.04" name="loop_lamda0_percentage"> <input type="text" value="" name="loop_lamda0"></td>
+	<td>mm</td>
+</tr>
+<tr>
 	<td>Side Length</td>
 	<td><input type="text" value="" name="lamda0_25"></td>
 	<td>mm</td>
@@ -151,7 +160,7 @@ We did not get as good a result as we expected from this, though it still isn't 
 <UL>
 <li>I used 3.2mm (1/8") Mang-Bronze welding rods. These are really hard to bend and
 the diamonds are quite small so made several smaller sections and soldered them together. Using 2mm diameter copper would be a lot easier.
-<li>The N-Socket is bolted to the back plate (cut from an old copper water tank) with nylon screws. 
+<li>The N-Socket is bolted to the back plate (cut from an old copper water tank) with nylon screws.
 <li>The antenna is held off of the back plate (1/8 wavelength) by 2mm diameter copper wire (the original plan had coax).
 </UL>
 
