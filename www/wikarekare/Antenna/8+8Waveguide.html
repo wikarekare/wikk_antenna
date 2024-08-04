@@ -9,6 +9,10 @@ function clearResults(form)
 	form.lamda0.value = "";
 	form.lamda0_25.value= "";
 	form.lamdaG.value= "";
+	form.lamdaG_25.value= "";
+	form.fc.value= "";
+	form.fc1.value= "";
+	form.fc2.value= "";
 
 	form.cavityLength.value = "";
 	form.outerLength.value = "";
@@ -82,13 +86,17 @@ function DoIt(form)
 	var y = gslot/g1;
 	var offset = (Number(form.width.value)/pi)*Math.asin(Math.sqrt(y));
 
-	if(((Number(form.width.value)*2)/l0)<1.27)
+	form.fc.value  = Math.round((299.702547/(form.width.value*2)/l0)*10)/10;
+	form.fc1.value = Math.round((299.702547/(form.width.value*2)/l0)*12.7)/10;
+	form.fc2.value = Math.round((299.702547/(form.width.value*2)/l0)*18.9)/10;
+
+  if(((Number(form.width.value)*2)/l0)<1.27)
 	{
 		form.message.value="waveguide too small";
 		clearResults(form);
 		return;
 	}
-	else if(((Number(form.width.value)*2)/l0)>1.9)
+	else if(((Number(form.width.value)*2)/l0)>1.89)
 	{
 		form.message.value="waveguide too large";
 		clearResults(form);
@@ -96,8 +104,9 @@ function DoIt(form)
 	}
 
 	form.lamda0.value = Math.round(l0*10)/10;
-	form.lamda0_25.value=Math.round(l0/4*10)/10;
-	form.lamdaG.value= Math.round(lg*10)/10;
+	form.lamda0_25.value = Math.round(l0/4*10)/10;
+	form.lamdaG.value = Math.round(lg*10)/10;
+	form.lamdaG_25.value = Math.round(lg*10)/40;
 
 	form.cavityLength.value = Math.round((Number(form.nSlots.value)/4+1)*lg*10)/10;
 	form.outerLength.value = Math.round(100 + Number(form.cavityLength.value)) ;
@@ -210,10 +219,14 @@ the slot sizes and placement (The "Improved from Elliot" figures with a 2% reduc
 <tr><td>Material Thickness</td><td><input type="text" value="3" name="thickness"></td><td>mm</td></tr>
 <tr><td>NSlots</td><td><input type="text" value="16" name="nSlots"></td><td>Both Sides</td></tr>
 <tr><td>&nbsp;</td><td><input type="text" value="" name="message"></td><td><INPUT onclick="DoIt(this.form)" type="button" value="Compute"></td></tr>
+<tr><td colspan="2"><HR></td></tr>
+<tr><td>Cut off<br>Frequency</td><td><input type="text" value="" name="fc"></td><td>GHz</td></tr>
+<tr><td>Operating Range</td><td><input type="text" value="" name="fc1"> to</td><td><input type="text" value="" name="fc2"> GHz</td></tr>
 <tr><td colspan="2"><hr></td></tr>
 <tr><td>Free Space<br>Wavelength</td><td><input type="text" value="" name="lamda0"></td><td>mm</td></tr>
 <tr><td>Waveguide<br>Wavelength</td><td><input type="text" value="" name="lamdaG"></td><td>mm</td></tr>
-<tr><td>Probe Length</td><td><input type="text" value="" name="lamda0_25"></td><td>mm</td></tr>
+<tr><td>Waveguide<br>1/4 Wavelength</td><td><input type="text" value="" name="lamdaG_25"></td><td>mm</td></tr>
+<tr><td>Probe Length</td><td><input type="text" value="" name="lamdaG_25"></td><td>mm</td></tr>
 <tr><td>Slot Length</td><td><input type="text" value="" name="slotLength"></td><td>mm</td></tr>
 <tr><td>Slot width</td><td><input type="text" value="" name="slotWidth"></td><td>mm</td></tr>
 <tr><td>Slot Offset</td><td><input type="text" value="" name="slotOffset"></td><td>mm (From Center to Slot Center)</td></tr>
