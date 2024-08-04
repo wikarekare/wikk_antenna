@@ -10,9 +10,6 @@ function clearResults(form)
 	form.lamda0_25.value= "";
 	form.lamdaG.value= "";
 	form.lamdaG_25.value= "";
-	form.fc.value= "";
-	form.fc1.value= "";
-	form.fc2.value= "";
 
 	form.cavityLength.value = "";
 	form.outerLength.value = "";
@@ -86,9 +83,9 @@ function DoIt(form)
 	var y = gslot/g1;
 	var offset = (Number(form.width.value)/pi)*Math.asin(Math.sqrt(y));
 
-	form.fc.value  = Math.round((299.702547/(form.width.value*2)/l0)*10)/10;
-	form.fc1.value = Math.round((299.702547/(form.width.value*2)/l0)*12.7)/10;
-	form.fc2.value = Math.round((299.702547/(form.width.value*2)/l0)*18.9)/10;
+	form.fc.value  = Math.round( (299.702547 / ( Number(form.width.value)*2) ) * 10) / 10;
+	form.fc1.value = Math.round( (299.702547 / ( Number(form.width.value)*2) ) * 12.7) / 10;
+	form.fc2.value = Math.round( (299.702547 / ( Number(form.width.value)*2) ) * 18.9) / 10;
 
 	if(((Number(form.width.value)*2)/l0)<1.25)
 	{
@@ -226,7 +223,7 @@ the slot sizes and placement (The "Improved from Elliot" figures with a 2% reduc
 	<tr><td>Free Space<br>Wavelength</td><td><input type="text" value="" name="lamda0"></td><td>mm</td></tr>
 	<tr><td>Waveguide<br>Wavelength</td><td><input type="text" value="" name="lamdaG"></td><td>mm</td></tr>
 	<tr><td>Waveguide<br>1/4 Wavelength</td><td><input type="text" value="" name="lamdaG_25"></td><td>mm</td></tr>
-	<tr><td>Probe Length</td><td><input type="text" value="" name="lamdaG_25"></td><td>mm</td></tr>
+	<tr><td>Probe Length</td><td><input type="text" value="" name="lamda0_25"></td><td>mm</td></tr>
 	<tr><td>Slot Length</td><td><input type="text" value="" name="slotLength"></td><td>mm</td></tr>
 	<tr><td>Slot width</td><td><input type="text" value="" name="slotWidth"></td><td>mm</td></tr>
 	<tr><td>Slot Offset</td><td><input type="text" value="" name="slotOffset"></td><td>mm (From Center to Slot Center)</td></tr>
