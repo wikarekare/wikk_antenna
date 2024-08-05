@@ -19,13 +19,13 @@ function DoIt(form)
 {
 
 	var l0 = (299.702547/form.frequency.value);
-	var loop_l0 = l0 * form.loop_lamda0_percentage.value
+	var loop_l0 = l0 * form.velocity_factor.value
 	form.lamda0.value = Math.round(l0*10)/10;
 	form.loop_lamda0.value = Math.round(loop_l0*100)/100;
 	form.lamda0_25.value=Math.round(loop_l0/4*10)/10;
-	form.lamda0_125.value=Math.round(loop_l0/8*10)/10;
-	form.plateHeight.value=Math.round((loop_l0/2+Math.sqrt(0.125*loop_l0*loop_l0))*10)/10;
-	form.plateWidth.value=Math.round((loop_l0/2+2*Math.sqrt(0.125*loop_l0*loop_l0))*10)/10;
+	form.lamda0_125.value=Math.round(l0/8*10)/10;
+	form.plateHeight.value=Math.round((l0/2+Math.sqrt(0.125*loop_l0*loop_l0))*10)/10;
+	form.plateWidth.value=Math.round((l0/2+2*Math.sqrt(0.125*loop_l0*loop_l0))*10)/10;
 	var angle = 0.663555726;
 	form.long_diag.value=Math.round(2 * Math.cos(angle)*loop_l0/4 * 10)/10;
 	form.short_diag.value=Math.round(2 * Math.sin(angle)*loop_l0/4 * 10)/10;
@@ -41,10 +41,27 @@ function setFrequency(form, theSelect)
 </head>
 <body onload="DoIt(document.theForm)">
 <h1>Building the biQuad</h1>
-
-We did not get as good a result as we expected from this, though it still isn't a bad antenna. Our build actually had an error in it. The squares should have been distorted into a rhombus, so that the long diagonal is about 1.3:1 that of the other. If the quads remain square, then the antenna has too high an impedance. Distorting the squares, drops this to 50 ohms.
-
-Further research shows that a loop antenna's wavelength is slightly longer than the free space wavelength. Other peoples tests indicate about 4% more, though this is dependent on the wire thickness and some experimentation is needed.
+We did not get as good a result as we expected from this, though it still isn't a bad antenna. Our calculator had an error in it.
+We hadn't taken into account the velocity factor of the wire in the antenna. i.e. the speed of light in the wire is less than in air.
+<p>
+Having a slower speed in the wire, means that the frequency shifts downward, so the wire needs to be shorter to resonate at the same frequency.
+ The velocity factor is going to vary with different wire thicknesses. In our case the overall wire length should be reduced by 4% to 5%.
+	Plastic close to the wire will change the velocity factor too, further reducing the speed of the radio wave.
+  This happened to us, when we put the antenna inside a plastic case.
+  Copper oxide on the wire will have this effect too, so an aging antenna is going to slowly detune to a lower frequency.
+ <p>
+ The velocity factor represents the percentage slowdown of the incoming signal in air, to the signal in the copper wire.
+ This is the same affect you see with light going through water or glass (light being a radio wave).
+ The light induces a wave in the electrons in the glass, but the speed of that induced wave is less than the speed of light in air.
+ If you add both the original light's radio wave, and the slower induced wave in the material, you get a resultant wave that we see.
+ When the light leaves the glass it speeds up again. The light isn't magically gaining energy.
+ It has just stopped interacting with the electrons in the material.
+ The material doesn't need to be conductive either, just a dialetric like plastic.
+ In a dialectric, the radio wave alternates the polarization (alignment of charge) in the material, but no current flows.
+<p>
+The squares should also have been distorted into a rhombus, so that the long diagonal is about 1.3:1 that of the other.
+If the quads remain square, then the antenna has too high an impedance. Distorting the squares, drops this to 50 ohms.
+This can be done by making the squares into rectangles. The difference in side length isn't much, and the overall wire length doesn't change.
 <p>
 <form name="theForm">
 <table>
@@ -113,8 +130,13 @@ Further research shows that a loop antenna's wavelength is slightly longer than 
 	<td>mm</td>
 </tr>
 <tr>
+	<td>velocity<br>Factor</td>
+	<td><input type="text" value="0.95" name="velocity_factor"></td>
+	<td>%</td>
+</tr>
+<tr>
 	<td>Loop<br>Wavelength</td>
-	<td><input type="text" value="1.04" name="loop_lamda0_percentage"> <input type="text" value="" name="loop_lamda0"></td>
+	<td><input type="text" value="" name="loop_lamda0"></td>
 	<td>mm</td>
 </tr>
 <tr>
@@ -158,10 +180,11 @@ Further research shows that a loop antenna's wavelength is slightly longer than 
 <p>
 <h3>Misc Notes</h3>
 <UL>
-<li>I used 3.2mm (1/8") Mang-Bronze welding rods. These are really hard to bend and
-the diamonds are quite small so made several smaller sections and soldered them together. Using 2mm diameter copper would be a lot easier.
-<li>The N-Socket is bolted to the back plate (cut from an old copper water tank) with nylon screws.
-<li>The antenna is held off of the back plate (1/8 wavelength) by 2mm diameter copper wire (the original plan had coax).
+<li>Use ~2mm diameter copper wire. I initially used 3.2mm (1/8") Mang-Bronze welding rods, but these are really too hard to bend
+<li>Use stainless rivets to secure the N-Socket, or flat head bolts.
+	  The original N-Socket was bolted to the back plate with nylon screws, which are too soft and eventually failed.
+<li>The antenna is held off of the back plate (1/8 wavelength) by 2mm diameter copper wire (the original used coax).
+	A small distance change affected the impedance more than the distance the feed wires were apart.
 </UL>
 
 <table>
