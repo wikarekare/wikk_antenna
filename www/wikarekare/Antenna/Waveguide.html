@@ -7,13 +7,9 @@
 function clearResults(form)
 {
 	form.lamda0.value = "";
-	form.lamda0_25.value= "";
+	form.probeLength.value= "";
 	form.lamdaG.value= "";
 
-	form.maxF.value= "";
-	form.minF.value= "";
-	form.cutoffF.value= "";
-	
 	form.cavityLength.value = "";
 	form.outerLength.value = "";
 	form.probeBottom.value = "";
@@ -29,50 +25,65 @@ function DoIt(form)
 	}
 	else
 		form.message.value="";
-	
-	var l0 = (299.702547/form.frequency.value);
-	var lg = (1/Math.sqrt(1/(l0*l0) - 1/(4*form.width.value*form.width.value)));
-	var lc = 2*Number(form.width.value);
-	var lu = 1.6*Number(form.width.value);
-	var ls = 1.1*Number(form.width.value);
-	
-	if(((Number(form.width.value)*2)/l0)<1.27 || lu < l0)
-	{
-		form.message.value="waveguide too small";
+
+	var pi = 3.141593;
+	var c_air = 299.702547;
+	var width = Number(form.width.value);
+	var depth = Number(form.depth.value);
+	var freq = Number(form.frequency.value);
+	var l0 = (c_air/freq);
+	var lg = (1/Math.sqrt(1/(l0*l0) - 1/(4*width*width)));
+
+	var te10_cutoff = c_air/(2*width);
+	var te01_cutoff = c_air/(2*depth);
+	var te20_cutoff = c_air*2/(2*width);
+	var te_next_mode = ((te01_cutoff < te20_cutoff) ? te01_cutoff : te20_cutoff);
+	var f_op_low = te10_cutoff * 1.27
+	var f_op_high = te_next_mode * 0.95
+	var vp = lg * freq;
+	var vg = c_air*Math.sqrt(1-(te10_cutoff/freq)^2);
+	var z = c_air/Math.sqrt(1-(te10_cutoff/freq)^2);
+
+	var backshort = Math.round(lg/8*10)/10;
+
+	form.fc_te10.value  = Math.round( te10_cutoff * 1000) / 1000;
+	form.fc_te_next_mode.value  = Math.round( te_next_mode * 1000) / 1000;
+	form.f_op_low.value = Math.round( f_op_low * 1000) / 1000;
+	form.f_op_high.value = Math.round( f_op_high * 1000) / 1000;
+
+  if(freq < te10_cutoff) {
+		form.message.value="Waveguide Too Small";
 		clearResults(form);
 		return;
-	}
-	else if(((Number(form.width.value)*2)/l0)>1.9 || ls > l0)
-	{
-		form.message.value="waveguide too large";
+	} else if(freq > te_next_mode) {
+		form.message.value="Waveguide Too Large";
 		clearResults(form);
 		return;
+	} else if(freq < f_op_low || freq > f_op_high) {
+		form.message.value="Outside Operating Range";
 	}
-	
+
 	form.lamda0.value = Math.round(l0*10)/10;
-	form.lamda0_25.value=Math.round(l0/4*10)/10;
+	form.probeLength.value=Math.round(lg/8*10)/10;
 	form.lamdaG.value= Math.round(lg*10)/10;
-	form.maxF.value= Math.round(299.702547/ls*1000)/1000;
-	form.minF.value= Math.round(299.702547/lu*1000)/1000;
-	form.cutoffF.value= Math.round(299.702547/lc*1000)/1000;
-	
-	form.cavityLength.value = Math.round(0.75*lg*10)/10;
+
+	form.cavityLength.value = Math.round((0.5*lg + backshort)*10)/10;
 	form.outerLength.value = Math.round(100 + Number(form.cavityLength.value)) ;
-	form.probeBottom.value = Math.round(0.25*lg*10)/10;
-	form.slotProbe.value = Math.round(0.5*lg*10)/10;
-	
+	form.probeBottom.value = backshort;
+	form.slotProbe.value = Math.round(0.125*lg*10)/10;
+
 }
 
 function setFrequency(form, theSelect)
 {
 	form.frequency.value = theSelect.options[theSelect.selectedIndex].value;
 	if(form.frequency.value > 5 && form.width.value == 94)
-	{	
+	{
 		form.width.value = 44;
 		form.depth.value = 22;
 	}
 	else if(form.frequency.value < 5 && form.width.value == 44)
-	{	
+	{
 		form.width.value = 94;
 		form.depth.value = 44;
 	}
@@ -84,11 +95,11 @@ function setFrequency(form, theSelect)
 <body onload="DoIt(document.theForm)">
 <h1>Building the Rectangular Waveguide</h1>
 
-We used 100mm x 50mm rectangular hollow box section aluminium with 3mm thick walls 
+We used 100mm x 50mm rectangular hollow box section aluminium with 3mm thick walls
 (off cuts from the 8+8 antenna).
 This gives us an internal size of 94mm x 44mm. We chose to build the antenna for
 2.442GHz, or channel 7, as this is close to the center of the 13 channels available
-to us (US designs use channel 6 (2.437Ghz), as they have 11 channels). 
+to us (US designs use channel 6 (2.437Ghz), as they have 11 channels).
 I followed Rob Clark's design. I have included a key lengths calculator in the form below.
 <b>Nb.</b>Circular waveguides (cans) use a different formulae (see <a href="WaveguideCan.html">Can Waveguide</a>).
 <p>
@@ -147,39 +158,56 @@ I followed Rob Clark's design. I have included a key lengths calculator in the f
 <tr><td>Wide Side</td><td><input type="text" value="94" name="width"></td><td>mm (Inside Measurement)</td></tr>
 <tr><td>Short Side</td><td><input type="text" value="44" name="depth"></td><td>mm (Inside Measurement)</td></tr>
 <tr><td>&nbsp;</td><td><input type="text" value="" name="message"></td><td><INPUT onclick="DoIt(this.form)" type="button" value="Compute"></td></tr>
-<tr><td>Free Space<br>Wavelength</td><td><input type="text" value="" name="lamda0"></td><td>mm</td></tr>
-<tr><td>Waveguide<br>Wavelength</td><td><input type="text" value="" name="lamdaG"></td><td>mm</td></tr>
-<tr><td>Max<br>Frequency</td><td><input type="text" value="" name="maxF"></td><td>GHz</td></tr>
-<tr><td>Min<br>Frequency</td><td><input type="text" value="" name="minF"></td><td>GHz</td></tr>
-<tr><td>Cut Off<br>Frequency</td><td><input type="text" value="" name="cutoffF"></td><td>GHz</td></tr>
-<tr><td>Probe Length</td><td><input type="text" value="" name="lamda0_25"></td><td>mm</td></tr>
+<tr><td colspan="2"><HR></td></tr>
+<tr><td>Te10 Cut off<br>Frequency</td>
+  <td><input type="text" value="" name="fc_te10">GHz to next mode</td>
+  <td><input type="text" value="" name="fc_te_next_mode">GHz</td>
+</tr>
+<tr><td>Operating Range</td>
+  <td><input type="text" value="" name="f_op_low">GHz to</td>
+  <td><input type="text" value="" name="f_op_high">GHz</td>
+</tr>
+<tr><td colspan="2"><HR></td></tr>
+<tr><td>Free Space &lambda;</td><td><input type="text" value="" name="lamda0"></td><td>mm</td></tr>
+<tr><td>Waveguide &lambda;g</td><td><input type="text" value="" name="lamdaG"></td><td>mm</td></tr>
+<tr><td>Probe Length</td><td><input type="text" value="" name="probeLength"></td><td>mm</td></tr>
 <tr><td>Open End to Probe</td><td><input type="text" value="" name="slotProbe"></td><td>mm (Open End to probe center)</td></tr>
-<tr><td>Probe to Reflector</td><td><input type="text" value="" name="probeBottom"></td><td>mm (Probe center to Reflector)</td></tr>
-<tr><td>Inside Length</td><td><input type="text" value="" name="cavityLength"></td><td>mm (Reflector to Opening)</td></tr>
+<tr><td>Probe to Back Short 1/8th &lambda;g<br>(reflector in diag)</td><td><input type="text" value="" name="probeBottom"></td><td>mm (Probe center to Reflector)</td></tr>
+<tr><td>Inside Length</td><td><input type="text" value="" name="cavityLength"></td><td>mm (back short to Opening)</td></tr>
 <tr><td>Outside Length</td><td><input type="text" value="" name="outerLength"></td><td>mm (Length including Mount)</td></tr>
 </table>
 </form>
 <p>
-The final product only needs to be accurate to about 1mm as this will only shift the frequency
-within the range of the 802.11 spectrum. A smaller cavity length will shift the frequency response
-to that slot to a higher channel. A longer slot cavity length will shift it down. 
+Most texts indicate that the distance to the backshort should be 1/4&lambda;g, which would look like an open circuit, but the best SWR was 1.23:1 using a cone feed (which isn't bad).
+The wire probe needs to be much shorter than a probe in free space too. Our measuremnts indicated a resonant frequency of 2.29GHz. Shifting the back short closer, pushed the resonant frequency higher.
 <p>
+It was found by experiment that the distance from a wire probe to the back short gave a much better SWR at 1/8th the waveguide wavelength.
+This will vary slightly for different sized waveguide dimensions, as it is affected by coupling with the probe. Slightly longer than 1/8&lambda;g seems to work well,
+but I need to experiment more, and I have moved to using cone feeds.
+<p>
+Using the cone probe, we got an SWR of 1.05:1 (blue trace), and the best distance was 1/8&lambda;g + 7.5mm (the cone radius) from the closest edge of the cone to the back short.
+The image is a Smiths chart and SWR for the The target frequency was 2.442. This configuration has a wide usable bandwidth.
+<br><img src="rect_waveguide_swr.jpg" width="400px"><br>
+</p>
 <h3>Methods and madness</h3>
 I measured to .1mm using vernier callipers, on the assumption that errors in cutting might bring that
-closer to the 1mm error mark. There are only two to make, and you can't go too wrong, the probe 
-(N-Socket) position and the placement of the reflector (end plate).
+closer to the 1mm error mark. There are only two to make, and you can't go too wrong, the probe
+(N-Socket) position and the placement of the back short (end plate).
 <p>
 <h3>Misc Notes</h3>
 <UL>
 <li>100mm is added to the end for mounting (included in form as the outside length).
-<li>We made the reflector (end plate) from part of a 44mm offcut (We made it an L shape to help in fixing it) and used
+<li>We made the back short (end plate) from part of a 44mm offcut (We made it an L shape to help in fixing it) and used
 the callipers to measure how far down the tube it needed to go.
 <li>The probe is a 2mm diameter copper wire soldered into an N-Socket and cut to 31mm (1/4 free space
-wavelength, including the protruding bit of the N-Socket).
+wavelength, including the protruding bit of the N-Socket). This needs to be shorter
+<br>
+   A conical feed is a much better probe. It had a wider bandwidth and was more forgiving during construction.
 <li>The N-Socket is held down with nylon screws. If you use metal screws,
 use stainless steal ones and keep them short so they don't protrude into the cavity.
 <li>Water in the antenna, or spider and insects will be a problem. One suggestion is to seal around the
-edges of the reflector with silicone and cover the open end with a piece of plastic (microwave friendly and thin).
+edges of the back short with silicone and cover the open end with a piece of plastic (microwave friendly and thin).
+Tests show that different plastics detune the antenna to lower frequencies, due to the dialetric properties of the plastic.
 </UL>
 
 
@@ -190,7 +218,7 @@ edges of the reflector with silicone and cover the open end with a piece of plas
 </tr>
 <tr valign="top">
 	<td> Not very exciting, but works well out to ~2Km. (with a cone probe it was working well at 3km)</td>
-	<td> Shows the reflector mounting </td>
+	<td> Shows the back short mounting</td>
 </tr>
 <tr>
 	<td><img src="N-Socket.jpg"></td>
@@ -199,26 +227,22 @@ edges of the reflector with silicone and cover the open end with a piece of plas
 <tr valign="top">
 	<td> N-Socket with 1/4 wavelength copper wire <br>
 	    (including the length of the bit of the <br>
-	    N-Socket it is soldered into). 
+	    N-Socket it is soldered into).
 	    <p>
 	    This becomes the probe for the antenna.
 	    <p>
 	</td>
 	<td> Shows the probe mounted. </td>
 </tr>
-<tr>	
-	<td align="center"><img src="coneFeed.jpg"></td>
-	<td align="center"><img src="RectWGConeProbeTN.jpg"></td>
-	<td align="center"><img src="coneCutout.jpg"></td>
-</tr>	
-<tr valign="top">
-	<td colspan="3">
-		A conical feed is a much better probe. It is made from a 20mm x 40mm piece of copper and rolled into a cone. It is slightly harder to make, but it is worthwhile.
-		<p>
-		Cut the red area from the copper and roll into a cone. Solder onto an N-Connector so that the cones base will be exactly half way across the cavity. 
-	<p><b>Nb.</b>The 10mm hole in the waveguide for the Nconnector will be too small for a cone probe. You will need to drill it out to 16mm. Do this in small increments, widening the hole one or two drill bit sizes at a time. It will make a much neater hole.
-	</td>
-</tr>
 </table>
+<h2>Cone feed</h2>
+  <img src="coneFeed.jpg"><img src="RectWGConeProbeTN.jpg">
+<p>
+ It is made from a 20mm x 40mm piece of copper and rolled into a cone. It is slightly harder to make, but it is worthwhile.<br>
+ <img src="coneCutout.jpg"><br>
+  Cut the red area from the copper and roll into a cone. Solder onto an N-Connector so that the cones base will be exactly half way across the cavity.
+  <p><b>Nb.</b>The 10mm hole in the waveguide for the N connector will be too small for a cone probe. You will need to drill it out to 16mm. Do this in small increments, widening the hole one or two drill bit sizes at a time. It will make a much neater hole.
+<p>
+  The back short needs to be the radius (~7.5mm) further back compared with a wire probe
 </body>
 </html>

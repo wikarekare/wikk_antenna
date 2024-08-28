@@ -7,7 +7,7 @@
 function clearResults(form)
 {
 	form.lamda0.value = "";
-	form.lamda0_25.value= "";
+	form.probeLength.value= "";
 	form.lamdaG.value= "";
 	form.lamdaG_25.value= "";
 
@@ -74,34 +74,47 @@ function DoIt(form)
 		form.message.value="";
 
 	var pi = 3.141593;
-	var l0 = (299.702547/form.frequency.value);
-	var lg = (1/Math.sqrt(1/(l0*l0) - 1/(4*form.width.value*form.width.value)));
+	var c_air = 299.702547;
+	var width = Number(form.width.value);
+	var depth = Number(form.depth.value);
+	var freq = Number(form.frequency.value);
+	var l0 = (c_air/freq);
+	var lg = (1/Math.sqrt(1/(l0*l0) - 1/(4*width*width)));
 	var gslot = 1/Number(form.nSlots.value);
 	var slotInWavelengths = 0.210324*gslot*gslot*gslot*gslot-0.338065*gslot*gslot*gslot+0.12712*gslot*gslot+0.034433*gslot+0.48253
 	var gInt = (Math.cos(0.464*pi*l0/lg)-Math.cos(0.464*pi));
-	var g1 = 2.09*(lg/l0)*(Number(form.width.value)/Number(form.depth.value))*gInt*gInt;
+	var g1 = 2.09*(lg/l0)*(width/depth)*gInt*gInt;
 	var y = gslot/g1;
-	var offset = (Number(form.width.value)/pi)*Math.asin(Math.sqrt(y));
+	var offset = (width/pi)*Math.asin(Math.sqrt(y));
+	var te10_cutoff = c_air/(2*width);
+	var te01_cutoff = c_air/(2*depth);
+	var te20_cutoff = c_air*2/(2*width);
+	var te_next_mode = ((te01_cutoff < te20_cutoff) ? te01_cutoff : te20_cutoff);
+	var f_op_low = te10_cutoff * 1.27
+	var f_op_high = te_next_mode * 0.95
+	var vp = lg * freq;
+	var vg = c_air*Math.sqrt(1-(te10_cutoff/freq)^2);
+	var z = c_air/Math.sqrt(1-(te10_cutoff/freq)^2);
 
-	form.fc.value  = Math.round( (299.702547 / ( Number(form.width.value)*2) ) * 10) / 10;
-	form.fc1.value = Math.round( (299.702547 / ( Number(form.width.value)*2) ) * 12.7) / 10;
-	form.fc2.value = Math.round( (299.702547 / ( Number(form.width.value)*2) ) * 18.9) / 10;
+	form.fc_te10.value  = Math.round( te10_cutoff * 1000) / 1000;
+	form.fc_te_next_mode.value  = Math.round( te_next_mode * 1000) / 1000;
+	form.f_op_low.value = Math.round( f_op_low * 1000) / 1000;
+	form.f_op_high.value = Math.round( f_op_high * 1000) / 1000;
 
-	if(((Number(form.width.value)*2)/l0)<1.25)
-	{
-		form.message.value="waveguide too small";
+	if(freq < te10_cutoff) {
+		form.message.value="Waveguide Too Small";
 		clearResults(form);
 		return;
-	}
-	else if(((Number(form.width.value)*2)/l0)>1.89)
-	{
-		form.message.value="waveguide too large";
+	} else if(freq > te_next_mode) {
+		form.message.value="Waveguide Too Large";
 		clearResults(form);
 		return;
+	} else if(freq < f_op_low || freq > f_op_high) {
+		form.message.value="Outside Operating Range";
 	}
 
 	form.lamda0.value = Math.round(l0*10)/10;
-	form.lamda0_25.value=Math.round(l0/4*10)/10;
+	form.probeLength.value=Math.round(lg/8*10)/10;
 	form.lamdaG.value= Math.round(lg*10)/10;
 	form.lamdaG_25.value = Math.round(lg*10)/40;
 
@@ -160,70 +173,76 @@ the slot sizes and placement (The "Improved from Elliot" figures with a 2% reduc
 <p>
 <form name="theForm">
 <table>
-<tr><td>Frequency</td><td><input type="text" value="2.442" name="frequency"><br>
-<select name="selectFrequency" SIZE=1 onChange="setFrequency(this.form, this.form.selectFrequency)">
-<option value="2.412">b/g Chnl 1</option>
-<option value="2.417">b/g Chnl 2</option>
-<option value="2.422">b/g Chnl 3</option>
-<option value="2.427">b/g Chnl 4</option>
-<option value="2.432">b/g Chnl 5</option>
-<option value="2.437">b/g Chnl 6</option>
-<option SELECTED value="2.442">b/g Chnl 7</option>
-<option value="2.447">b/g Chnl 8</option>
-<option value="2.452">b/g Chnl 9</option>
-<option value="2.457">b/g Chnl 10</option>
-<option value="2.462">b/g Chnl 11</option>
-<option value="2.467">b/g Chnl 12</option>
-<option value="2.472">b/g Chnl 13</option>
-<option value="2.484">b/g Chnl 14</option>
-<option disabled>-NZ Indoor-</option>
-<option value="5.170">a Chnl 34</option>
-<option value="5.180">a Chnl 36</option>
-<option value="5.190">a Chnl 38</option>
-<option value="5.200">a Chnl 40</option>
-<option value="5.210">a Chnl 42 (mid-range)</option>
-<option value="5.220">a Chnl 44</option>
-<option value="5.230">a Chnl 46</option>
-<option value="5.240">a Chnl 48</option>
-<option disabled>-NZ outdoor low-</option>
-<option value="5.250">a Chnl 50</option>
-<option value="5.260">a Chnl 52</option>
-<option value="5.280">a Chnl 56</option>
-<option value="5.285">a Chnl 57 (mid-range)</option>
-<option value="5.290">a Chnl 58</option>
-<option value="5.300">a Chnl 60</option>
-<option value="5.320">a Chnl 64</option>
-<option disabled>-NZ Outdoor High-</option>
-<option value="5.745">a Chnl 149</option>
-<option value="5.760">a Chnl 152</option>
-<option value="5.765">a Chnl 153</option>
-<option value="5.785">a Chnl 157 (mid-range)</option>
-<option value="5.800">a Chnl 160</option>
-<option value="5.805">a Chnl 161</option>
-<option value="5.825">a Chnl 165</option>
-</select>
-</td><td valign="top">GHz</td>
-	<td valign="top" rowspan=19>
-		<table>
-		<tr>
-			<td><img src="8+8WaveGuideDiag.gif"></td>
-		</tr>
-		<tr><td><INPUT onclick="ChartIt(this.form)" type="button" value="Construction Chart"></td>
-		</table>
-</tr>
-<tr><td>Wide Side</td><td><input type="text" value="94" name="width"></td><td>mm (Inside Measurement)</td></tr>
-<tr><td>Short Side</td><td><input type="text" value="44" name="depth"></td><td>mm (Inside Measurement)</td></tr>
-<tr><td>Material Thickness</td><td><input type="text" value="3" name="thickness"></td><td>mm</td></tr>
-<tr><td>NSlots</td><td><input type="text" value="8" name="nSlots"></td><td>One Sided</td></tr>
-<tr><td>&nbsp;</td><td><input type="text" value="" name="message"></td><td><INPUT onclick="DoIt(this.form)" type="button" value="Compute"></td></tr>
+	<tr><td>Frequency</td><td><input type="text" value="2.442" name="frequency"><br>
+	<select name="selectFrequency" SIZE=1 onChange="setFrequency(this.form, this.form.selectFrequency)">
+	<option value="2.412">b/g Chnl 1</option>
+	<option value="2.417">b/g Chnl 2</option>
+	<option value="2.422">b/g Chnl 3</option>
+	<option value="2.427">b/g Chnl 4</option>
+	<option value="2.432">b/g Chnl 5</option>
+	<option value="2.437">b/g Chnl 6</option>
+	<option SELECTED value="2.442">b/g Chnl 7</option>
+	<option value="2.447">b/g Chnl 8</option>
+	<option value="2.452">b/g Chnl 9</option>
+	<option value="2.457">b/g Chnl 10</option>
+	<option value="2.462">b/g Chnl 11</option>
+	<option value="2.467">b/g Chnl 12</option>
+	<option value="2.472">b/g Chnl 13</option>
+	<option value="2.484">b/g Chnl 14</option>
+	<option disabled>-NZ Indoor-</option>
+	<option value="5.170">a Chnl 34</option>
+	<option value="5.180">a Chnl 36</option>
+	<option value="5.190">a Chnl 38</option>
+	<option value="5.200">a Chnl 40</option>
+	<option value="5.210">a Chnl 42 (mid-range)</option>
+	<option value="5.220">a Chnl 44</option>
+	<option value="5.230">a Chnl 46</option>
+	<option value="5.240">a Chnl 48</option>
+	<option disabled>-NZ outdoor low-</option>
+	<option value="5.250">a Chnl 50</option>
+	<option value="5.260">a Chnl 52</option>
+	<option value="5.280">a Chnl 56</option>
+	<option value="5.285">a Chnl 57 (mid-range)</option>
+	<option value="5.290">a Chnl 58</option>
+	<option value="5.300">a Chnl 60</option>
+	<option value="5.320">a Chnl 64</option>
+	<option disabled>-NZ Outdoor High-</option>
+	<option value="5.745">a Chnl 149</option>
+	<option value="5.760">a Chnl 152</option>
+	<option value="5.765">a Chnl 153</option>
+	<option value="5.785">a Chnl 157 (mid-range)</option>
+	<option value="5.800">a Chnl 160</option>
+	<option value="5.805">a Chnl 161</option>
+	<option value="5.825">a Chnl 165</option>
+	</select>
+	</td><td valign="top">GHz</td>
+		<td valign="top" rowspan=19>
+			<table>
+			<tr>
+				<td><img src="8+8WaveGuideDiag.gif"></td>
+			</tr>
+			<tr><td><INPUT onclick="ChartIt(this.form)" type="button" value="Construction Chart"></td>
+			</table>
+	</tr>
+	<tr><td>Wide Side</td><td><input type="text" value="94" name="width"></td><td>mm (Inside Measurement)</td></tr>
+	<tr><td>Short Side</td><td><input type="text" value="44" name="depth"></td><td>mm (Inside Measurement)</td></tr>
+	<tr><td>Material Thickness</td><td><input type="text" value="3" name="thickness"></td><td>mm</td></tr>
+	<tr><td>NSlots</td><td><input type="text" value="8" name="nSlots"></td><td>One Sided</td></tr>
+	<tr><td>&nbsp;</td><td><input type="text" value="" name="message"></td><td><INPUT onclick="DoIt(this.form)" type="button" value="Compute"></td></tr>
 	<tr><td colspan="2"><HR></td></tr>
-	<tr><td>Cut off<br>Frequency</td><td><input type="text" value="" name="fc"></td><td>GHz</td></tr>
-	<tr><td>Operating Range</td><td><input type="text" value="" name="fc1"> to</td><td><input type="text" value="" name="fc2"> GHz</td></tr>
+	<tr><td>Te10 Cut off<br>Frequency</td>
+	  <td><input type="text" value="" name="fc_te10">GHz to next mode</td>
+	  <td><input type="text" value="" name="fc_te_next_mode">GHz</td>
+	</tr>
+	<tr><td>Operating Range</td>
+	  <td><input type="text" value="" name="f_op_low">GHz to</td>
+	  <td><input type="text" value="" name="f_op_high">GHz</td>
+	</tr>
 	<tr><td colspan="2"><HR></td></tr>
 	<tr><td>Free Space<br>Wavelength</td><td><input type="text" value="" name="lamda0"></td><td>mm</td></tr>
 	<tr><td>Waveguide<br>Wavelength</td><td><input type="text" value="" name="lamdaG"></td><td>mm</td></tr>
 	<tr><td>Waveguide<br>1/4 Wavelength</td><td><input type="text" value="" name="lamdaG_25"></td><td>mm</td></tr>
-	<tr><td>Probe Length</td><td><input type="text" value="" name="lamda0_25"></td><td>mm</td></tr>
+	<tr><td>Probe Length</td><td><input type="text" value="" name="probeLength"></td><td>mm</td></tr>
 	<tr><td>Slot Length</td><td><input type="text" value="" name="slotLength"></td><td>mm</td></tr>
 	<tr><td>Slot width</td><td><input type="text" value="" name="slotWidth"></td><td>mm</td></tr>
 	<tr><td>Slot Offset</td><td><input type="text" value="" name="slotOffset"></td><td>mm (From Center to Slot Center)</td></tr>
@@ -233,8 +252,8 @@ the slot sizes and placement (The "Improved from Elliot" figures with a 2% reduc
 	<tr><td>Probe to Bottom</td><td><input type="text" value="" name="probeBottom"></td><td>mm (Probe center to Bottom Plate)</td></tr>
 	<tr><td>Inside Length</td><td><input type="text" value="" name="cavityLength"></td><td>mm (Top to Bottom Plate)</td></tr>
 	<tr><td valign="top">Outside Length</td><td valign="top"><input type="text" value="" name="outerLength"></td><td valign="top">mm (Top to Bottom)</td></tr>
-	</table>
-	</form>
+</table>
+</form>
 	<p>
 	The final product only needs to be accurate to about 1mm as this will only shift the frequency
 	within the range of the 802.11 spectrum. A smaller slot length will shift the frequency response
@@ -263,8 +282,8 @@ I don't know what the exact realtionship is). People have successfully used much
 <li>We made the top cap from part of a 44mm offcut and filed it so it was a tight fit (I'm told this isn't that crtical).
 <li>The other side of the offcut was used for bottom plate (We made it an L shape to help in fixing it) and used
 the callipers to measure how far down the tube it needed to go.
-<li>The probe is a 2mm diameter copper wire soldered into an N-Socket and cut to 31mm (1/4 free space
-wavelength, including the protruding bit of the N-Socket).
+<li>The probe is a 2mm diameter copper wire soldered into an N-Socket and cut 1/8&lambda;g, including the protruding bit of the N-Socket (Should be slightly longer).
+	  Using a cone for a probe gave a much better SWR.
 <li>The N-Socket is held down with nylon screws. I threaded the mounting holes. If you use metal screws,
 use stainless steal ones and keep them short so they don't protrude into the cavity.
 <li>Water in the antenna, or spider and insects will be a problem. One suggestion is to make the antenna
