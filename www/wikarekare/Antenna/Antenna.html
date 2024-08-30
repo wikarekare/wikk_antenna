@@ -4,15 +4,24 @@
 </head>
 <body>
 <h2>Antenna</h2>
-We were fortunate to have two Lucent 14DBi Yagi antennas to use as a reference for our own
-home built ones. These also gave us a good indication that a signal could be carried over the
-trial distance and terrain. We concluded that as long as we had line of sight, with minimal foliage
+We have built several different antennas designs. The antennas of choice were the slotted waveguides and the bicircles.
+We were fortunate to have two Lucent 14DBi Yagi antennas to use as a reference for our own home built ones.  We no longer build our own WiFi radios though,
+as there are plenty of cheap commercial outdoor radios available, and these have excellent built in Patch antennas. We do still use several of the original
+waveguides, as these are exceptionally good antenna.
+<p>
+The Lucent antenna also gave us a good indication that a signal could be carried over the
+trial distance and terrain, before we committed to building our own antenna..
+We concluded that as long as we had line of sight, with minimal foliage
 in the path, that we could transmit between any two points in the Karekare area (easily up to ~4Km we needed).
-We have built several different antennas designs and intend to trial others. The antennas of choice would be the slotted waveguides and the bicircles.
+That turned out to be mostly true.
+
+<h3>Simple Antenna Theory</h3>
+<a href="theory.html"</a>A simple guide to antenna concepts</a>
+
 <h3>Slotted Waveguide</h3>
 <table>
 <tr>
-<td valign="top"><img src="Antenna/LKAntennaSmall.jpg" ></td>
+<td valign="top"><img src="LKAntennaSmall.jpg" ></td>
 <td valign="top">
 <h3>8+8 Slotted waveguide</h3>
 We were looking for a high gain omnidirectional antenna for our access points.
@@ -29,14 +38,14 @@ antenna and about 20 degrees below it (understandable, the gain is achieve throu
  Rotating the antenna brought the signal up to a usable level. We will
 look at adding "wings" to the antenna to see if this evens out the coverage.
 <p>
-<a href="Antenna/8+8Waveguide.html">Details of what we built</a><br>
+<a href="8+8Waveguide.html">Details of what we built</a><br>
 </td>
 </tr>
 </table>
 <p>
 <table>
 <tr>
-<td valign="top"><img src="Antenna/8WaveGuide.gif" WIDTH="100"></td>
+<td valign="top"><img src="8WaveGuide.gif" WIDTH="100"></td>
 <td valign="top">
 <h3>8 Single sided Slotted waveguide</h3>
 We were also looking for a high gain 180 degree antenna for our central site.
@@ -45,7 +54,7 @@ single sided 8 slot waveguide
 This proved to have a good 180 degree signal, Testing against the Lucent yagi,
 the slotted antenna still had an excellent signal at 3.5Km.
 <p>
-<a href="Antenna/8Waveguide.html">Details of what we built</a><br>
+<a href="8Waveguide.html">Details of what we built</a><br>
 </td>
 </tr>
 </table>
@@ -54,21 +63,21 @@ the slotted antenna still had an excellent signal at 3.5Km.
 These have a really good gain, and are simple to make. We now use these at nearly all the client ends, mounting them inside the router box (see <a target="_top" href="https://www.wikarekare.org/router/router-Pages/Image20.html">picture.</a>). We make the backing plate wider than is strickly necessary, so that it fits in the box better, and glue them in place. We are using them over 3km paths, with a single sided 8 slot waveguide at the far end. We have also used them at both ends, as point to point relays, over a 2.5km path, with 32mW tx power.
 <p>
 <table>
-<tr><td> <img src="Antenna/bicircleSmall.jpg"></td><td><a href="Antenna/bicircle.html">What we built (14dBi)</a></td></tr>
+<tr><td> <img src="bicircleSmall.jpg"></td><td><a href="bicircle.html">What we built (14dBi)</a></td></tr>
 </table>
 
 <h3>Simple Waveguides</h3>
 <table>
 <tr>
-<td><img src="Antenna/WaveguideSide.gif" WIDTH="100"></td>
+<td><img src="WaveguideSide.gif" WIDTH="100"></td>
 <td  valign="top">
 Looking for a cheap and easy to construct client antenna, we came across, amongst others, tin can (circular waveguides)
 and brick (rectangular waveguides) designs. We built a rectangular waveguide from an offcut of the 8+8 slotted
 waveguide and tested it against the Lucent yagi and the 8+8 slotted waveguide. It proved to have a usable range somewhere
 around 2km. With the 1/4wave dipole probe, it failed at our 3Km test point, but was working just before 2Km. With the cone probe, it was still working well at 3km.
 <p>
-<a href="Antenna/Waveguide.html">Details of Rectangular Waveguide built</a><br>
-<a href="Antenna/WaveguideCan.html">Details of Circular Waveguide built</a>
+<a href="Waveguide.html">Details of Rectangular Waveguide built</a><br>
+<a href="WaveguideCan.html">Details of Circular Waveguide built</a>
 </td>
 </tr>
 </table>
@@ -79,7 +88,7 @@ something like it. The horn is increasing the gain of the simple waveguide.
 </p><h3>Yagi</h3>
 <table>
 <tr>
-<td><img src="Antenna/YagiOpenEnded.gif" WIDTH="100"></td>
+<td><img src="YagiOpenEnded.gif" WIDTH="100"></td>
 <td valign="top">
 The Lucent Yagi antenna is superior to the simple waveguide, so we went looking for simple to build yagi
 designs. We have yet to construct one, but came across <a target="_top" href="https://www.andrewhakman.dhs.org/yagi/">Andrew Hakman's</a> and <a target="_top" href="https://www.users.bigpond.com/darren.fulton/yagi/13_element_yagi_antenna_for_2.htm">Darren Fulton's</a>
@@ -102,7 +111,7 @@ there are reflected signals arriving at the antenna causing interference. A refl
  signal of the same polarization as the antenna.
 <a target="_top" href="https://www.wireless.org.au/~jhecker/helix/">An example of a homebuild helical</a> and another good site by <a target="_top" href="https://helix.remco.tk/">Dr. Remco den Besten, PA3FYM</a>
 <h3>Ubiquti</h3>
-The Ubiquiti basestations are using patch antenna, either etched in circuit boards or cut from sheet metal. They are extremely effective, and very compact (see <a target="_top" href="Antenna/ubiquiti/index.html"> Ubiquti Antenna</a> )
+The Ubiquiti basestations are using patch antenna, either etched in circuit boards or cut from sheet metal. They are extremely effective, and very compact (see <a target="_top" href="ubiquiti/index.html"> Ubiquti Antenna</a> )
 </p>
 </body>
 </html>

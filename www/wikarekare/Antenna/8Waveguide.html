@@ -254,6 +254,16 @@ the slot sizes and placement (The "Improved from Elliot" figures with a 2% reduc
 	<tr><td valign="top">Outside Length</td><td valign="top"><input type="text" value="" name="outerLength"></td><td valign="top">mm (Top to Bottom)</td></tr>
 </table>
 </form>
+<ul>
+  <li> 	The waveguide impedance drops rapidily from infinite at Te10 cut off, then becomes close to linear<br>
+				 <img src="Impedance.jpg">
+	<li> Te10 Cut Off is the lowest frequency the waveguide will operate at.
+	<li> At the next mode frequency, the waveguide will resonate differently, and at a different speed<br>
+		   (Next mode cut off is usually the Te20 mode, but if the width < 2 x Height, it becomes the Te01 mode)<br>
+	<li> Operating Range is ~1.27 x Te10 Cut Off, up to 95% of the next mode Frequency<br>
+		   The low 27% of the range has a very rapidly changing impedance<br>
+			 Above 95% of the next mode, there is a danger of jumping to a different resonant mode.<br>
+</ul>
 	<p>
 	The final product only needs to be accurate to about 1mm as this will only shift the frequency
 	within the range of the 802.11 spectrum. A smaller slot length will shift the frequency response

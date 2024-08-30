@@ -1,0 +1,88 @@
+<h1>Music Analogy for Antenna Theory</h1>
+
+If you are new to antenna theory, there is a musical analogy.  A musical instrument produces notes, of given pitches.
+The pitch is the number of the vibration per second of the air molecules produced by the instrument
+(also called the frequency of the sound waves).
+Notes might be produced by vibrating strings, reeds, etc, or resonant cavities (often a combination of both).
+<p>
+The wavelength of a note is the speed of sound divided by the pitch (the frequency of vibration of the air).
+The wavelength gets shorter as the note gets higher, which is very evident in an instrument like the Pan Pipes, where shorter tubes produce higher notes.
+An instrument also has a timbre, which describes the level of harmonics produced when playing a note. Harmonics are multiples of the pitch.
+(Tuning a string, by changing the tension, actually changes the speed of sound in the string, hence the pitch and wavelength for the same string length )
+<p>
+Antennas use the same language, as they are also dealing with vibrations. In the antenna case, the vibration is an electromagnetic wave, rather
+than a sound wave in air molecules.
+The speed of electromagnetic radio signals is the speed of light, rather than the speed of sound.
+Light being an electromagnetic (radio) wave that we can see (Our eyes don't have antenna that can see other radio waves).
+<p>
+For antennas, We don't refer to notes or pitch, but use the term "frequency". Frequency is measured in Hertz, though the older term,
+cycles per second, was more descriptive.
+The wavelength of a radio signal is the speed of light divided by the frequency, so, like sound,
+the wavelength gets shorter as the frequency increases. Hence our antennas get smaller as the frequency increases.
+Radio signals also produce harmonics, which are dependent on the way we add the digital messages to the WiFi carrier (or center) frequency.
+<p>
+A wire antenna is like a vibrating string or tuning fork.  The antenna wire is cut to the wavelength (more often a sub-harmonic of the wavelength)
+and will resonate when there is a radio signal arriving, and this will produce an electrical signal in the wire that the radio can use.
+The reverse happens when we transmit.
+<p>
+A waveguide antenna is more like a Pan Pipe equivalent. The internal dimensions of the waveguide antenna are
+made so the waveguide is resonant at the frequency of interest. The slots we cut in the face of the waveguide are also cut
+to resonate at the frequency of interest. A transition is needed to get from vibration in the waveguide, to vibration in the coax going to
+radio. This is usually a small wire antenna, called a probe. We have also had good results from having a cone shaped probe.
+<p>
+A wire antenna resonates with the electrical part of the electromagnetic wave, and the slots in the waveguide resonate with the
+ magnetic part of the electromagnetic wave.
+The electric and magnetic parts of the electomagnetic wave are at right angles to each other, so a horizontal wire is equivalent to a vertical slot.
+Antennas will work with frequencies close to the carrier signals frequency. How efficently, depends on the antenna design.
+ This is refered to as the antennas bandwidth.
+<p>
+Our original antennas are all horizontally polarized (the electric component being horizontal, and the magnetic compenent vertical).
+ The newer commercial basestations have dual polarization, also having both vertically polarized and horizontally polarized patch antennas. This is an advantage,
+ as the path loss (between the two radios) can be different for horizontal and vertically polarized signals.
+<p>
+It should also be noted that the speed of light in wire is lower than the speed of light in air.
+The material around the wire (even copper oxide) effects this velocity of a signal in the wire too, pushing down the resonant frequency.
+This is represented by the velocity factor, which is the percentage of the speed of light in the antenna or cable
+compared to the speed of light in air. This is called the velocity factor. Cables also have there own velocity factor, which depends on how they are made.
+<p>
+The velocity factor of copper wire is about 0.95 times the speed in air, but it does vary with different wire.
+This makes a copper antenna about 5% shorter than Free Space wavelength of the signal. The diameter of the wire is also a factor.
+For radio waves, the effect is due to induced movement of electrons in the material. This is the same reason light appears to be slower
+in glass, than in air, yet speeds up again when leaving the glass. The induced signal in the glass gets added to the arriving signal,
+and the resulting wave has a slower speed than light in air.
+<p>
+ Impedance is is a term you will see a lot. It is the AC equivalent of DC resistance, and both are measured in Ohms.
+ For radio waves, this is usually 50 Ohms for the radio, but not always, and for air is approximately 377 Ohmns.
+ Physically, impendance manifests as the ratio of the magnitude of the electic and magnetic fields.
+ <p>
+A mismatch between between the impedance of the Antenna (including in the cables) and the impedance that the transmitter expects
+ will result in a reflection of some of the transmitted energy back to the transmitter.
+At visual radio wavelengths (light), a mistmatch from air to glass can be seen as the reflection of light off of a window.
+About 4% of the light is reflected, due to the difference between the impedance of air and glass.
+At high power levels, this reflected energy can cause damage to the transmitter, so testing should be done at low transmit levels.
+Most wifi radios are low enough power, to not be in danger, but a mismatched impedance still reduces the efficiency for both transmitting and receiving.
+<p>
+Testing the efficiency of receiving, by using a remote WiFi signal, will give you a good indication of the transmitting efficiency of the antenna.
+Antennas are mostly symmetric for receive and transmit. This is called repricosity.
+Getting a perfect match between the antenna and radio is unusual.
+There are antenna testers (SWR meters (Standing Wave Ratio)), that can be used to tell how much of the transmitted signal is being reflected.
+There are also testers that measure the impedance and bandwidth (though many testers do not work at WiFi frequencies).
+An SWR below 1.5 is the goal, with Ratio of 1 being ideal.  Some antenna need a matching network, but none of our designs use them.
+<p>
+Cable loss is a significant factor too. Cable loss at 2.4GHz is significant, and much worse at 5GHz, so keep antenna cables very short.
+You can find cable loss from the manufacturers web sites, and there are some online calculators. LMR100 cable is thin, but you should keep the
+length very short, as it has high loss per meter. LMR200 has about half the loss of LMR100, and LMR240 slightly less.
+LMR400 has about half the loss of LMR200, but is quite thick.  We did use up to 2m runs of LMR400, but eventually connected to our waveguides
+with right angle N-connectors, directly to our WiFi routers, or used very short LMR100 (100mm) jumpers to the WiFi Routers.
+Connector also have a small loss, which is usually documented by the manufacture.
+<p>
+Cable loss will also affect the SWR reading of a test, as the reflected wave will experience loss coming back down the cable.
+The SWR will then look to be lower than it really is. Test the antenna, with a short calibrated cable, and the separately
+test the feed cable, using a dummy 50 Ohm resister, instead of the antenna.
+
+<p>
+Keep the antenna away from other metal objects. At least a wavelength is advisable, which for 2.4GHz is only 123mm, so not very far.
+ You also want to minimise reflections from behind, or from objects in the signal path. I did have a location with a large semicircle of
+ rock behind the house, and despite getting a good signal, the wifi wouldn't work due to reflections causing interference with the primary signal.
+  Moving the antenna only a small distance solved the problem. We have also found pine trees near the signal path,
+   to act like tinsel reflecting the radio wave (their Pine needles being about the length of a 2.4GHz antenna and absorb and reradiate the signal).

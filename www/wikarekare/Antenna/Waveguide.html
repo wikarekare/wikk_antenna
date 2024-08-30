@@ -177,6 +177,16 @@ I followed Rob Clark's design. I have included a key lengths calculator in the f
 <tr><td>Outside Length</td><td><input type="text" value="" name="outerLength"></td><td>mm (Length including Mount)</td></tr>
 </table>
 </form>
+<ul>
+  <li> 	The waveguide impedance drops rapidily from infinite at Te10 cut off, then becomes close to linear<br>
+				 <img src="Impedance.jpg">
+	<li> Te10 Cut Off is the lowest frequency the waveguide will operate at.
+	<li> At the next mode frequency, the waveguide will resonate differently, and at a different speed<br>
+		   (Next mode cut off is usually the Te20 mode, but if the width < 2 x Height, it becomes the Te01 mode)<br>
+	<li> Operating Range is ~1.27 x Te10 Cut Off, up to 95% of the next mode Frequency<br>
+		   The low 27% of the range has a very rapidly changing impedance<br>
+			 Above 95% of the next mode, there is a danger of jumping to a different resonant mode.<br>
+</ul>
 <p>
 Most texts indicate that the distance to the backshort should be 1/4&lambda;g, which would look like an open circuit, but the best SWR was 1.23:1 using a cone feed (which isn't bad).
 The wire probe needs to be much shorter than a probe in free space too. Our measuremnts indicated a resonant frequency of 2.29GHz. Shifting the back short closer, pushed the resonant frequency higher.
